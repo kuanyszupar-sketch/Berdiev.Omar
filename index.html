@@ -464,47 +464,58 @@ footer li{margin-bottom:6px}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ ARCHIVE PHOTOS ============
-   src ішіне сурет сілтемесін (немесе файл жолын, мысалы "img/tselina1.jpg") қойыңыз.
-   Бос болса, сайт «архив суреті» орнын көрсетіп, Wikimedia Commons-тан іздеу сілтемесін береді.
-   Ұсыныс: commons.wikimedia.org, Орталық мемлекеттік кино-фото құжаттар архиві, Қазақстан Орталық мемлекеттік архиві. */
-  const IMAGES = {
-  hero:     {src:'', cap:'Тың жерге аттанған жастар эшелоны, 1954 ж.', q:'целина 1954 эшелон комсомольцы'},
-  hero2:    {src:'', cap:'Тың игерушілер, Солтүстік Қазақстан', q:'целинники Казахстан 1950-е'},
-  poster:   {src:'', cap:'«Жастар, тың жерге!» плакаты, 1954 ж.', q:'Корецкий Молодежь на целину плакат 1954'},
-  plenum:   {src:'', cap:'Н. С. Хрущёв — тың игеру бастамашысы', q:'Хрущёв 1954 целина пленум'},
-  camp:     {src:'', cap:'Тың игерушілердің алғашқы палаткалы қалашығы', q:'палаточный городок целинников Казахстан'},
-  combine:  {src:'', cap:'Комбайндар Қостанай даласында', q:'целина комбайны Кустанай 1956'},
-  settlers: {src:'', cap:'Қоныс аударушы отбасылар', q:'целинники переселенцы Казахстан 1955'},
-  city:     {src:'', cap:'Целиноград (бұрынғы Ақмола), 1960-шы жылдар', q:'Целиноград 1960-е'},
-  dust:     {src:'', cap:'Шаңды дауыл және жел эрозиясы, Тың өлкесі', q:'пыльная буря целина Казахстан эрозия'},
-  grain:    {src:'', cap:'Астық үйінділері мен элеватор, 1956 ж.', q:'целина хлеб элеватор Казахстан 1956'}
+/* ============ ФОТОЛАР ============
+   Сайт photo1.jpg ... photo7.jpg файлдарын автоматты түрде іздейді (index.html-мен бір папкада).
+   Файл атауы .JPG / .jpeg / .png / .webp болса да, "images/", "img/", "photos/" папкасында болса да табады.
+   n — фото нөмірі (photoN). Қай сурет қай орынға түсетінін n санын ауыстырып өзгертесіз.
+   cap — сурет астындағы жазу (өз суретіңізге сай өзгертіңіз). n:0 болса, ол орын көрсетілмейді. */
+const PHOTO_DIRS=['','images/','img/','photos/'];
+const PHOTO_EXTS=['jpg','JPG','jpeg','png','webp'];
+const IMAGES = {
+  hero:     {n:1, cap:'Тың игеру жылдарының архивтік суреті', q:'целина 1954 эшелон комсомольцы'},
+  hero2:    {n:2, cap:'Тың игеру жылдарының архивтік суреті', q:'целинники Казахстан 1950-е'},
+  poster:   {n:3, cap:'Тың игеру жылдарының архивтік суреті', q:'Корецкий Молодежь на целину плакат 1954'},
+  plenum:   {n:4, cap:'Тың игеру жылдарының архивтік суреті', q:'Хрущёв 1954 целина пленум'},
+  camp:     {n:5, cap:'Тың игеру жылдарының архивтік суреті', q:'палаточный городок целинников Казахстан'},
+  combine:  {n:6, cap:'Тың игеру жылдарының архивтік суреті', q:'целина комбайны Кустанай 1956'},
+  settlers: {n:7, cap:'Тың игеру жылдарының архивтік суреті', q:'целинники переселенцы Казахстан 1955'},
+  city:     {n:0, cap:'Целиноград, 1960-шы жылдар', q:'Целиноград 1960-е'},
+  dust:     {n:0, cap:'Шаңды дауыл және жел эрозиясы', q:'пыльная буря целина Казахстан эрозия'},
+  grain:    {n:0, cap:'Астық үйінділері мен элеватор', q:'целина хлеб элеватор Казахстан 1956'}
 };
-  const CAMERA_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="#1D2145" stroke-width="1.8"><path d="M3 7h4l2-3h6l2 3h4v13H3z"/><circle cx="12" cy="13" r="4"/></svg>';
+const CAMERA_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="#1D2145" stroke-width="1.8"><path d="M3 7h4l2-3h6l2 3h4v13H3z"/><circle cx="12" cy="13" r="4"/></svg>';
+function photoCandidates(d){
+  if(d.src) return [d.src];
+  if(!d.n) return [];
+  const out=[]; PHOTO_DIRS.forEach(dir=>PHOTO_EXTS.forEach(e=>out.push(dir+'photo'+d.n+'.'+e))); return out;
+}
 function buildPhoto(fig){
   const k=fig.dataset.key, d=IMAGES[k]; if(!d)return;
-  const show=(url)=>{
+  const list=photoCandidates(d);
+  if(!list.length){fig.remove();return;}
+  function show(url,onfail){
     fig.innerHTML='';
-    const img=new Image(); img.alt=d.cap; img.loading='lazy'; img.src=url;
-    img.onerror=()=>empty();
+    const img=new Image(); img.alt=d.cap; img.src=url;
+    img.onerror=onfail||empty;
     const cap=document.createElement('figcaption'); cap.textContent=d.cap;
     const sw=document.createElement('label'); sw.className='swap'; sw.textContent='Ауыстыру';
     const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.hidden=true;
     inp.onchange=()=>{ if(inp.files[0]) show(URL.createObjectURL(inp.files[0])); };
     sw.appendChild(inp); fig.append(img,cap,sw);
-  };
-  const empty=()=>{
-    const q=encodeURIComponent(d.q);
-    fig.innerHTML='<div class="empty">'+CAMERA_SVG+'<small>Архив суреті</small><div class="acts">'+
+  }
+  function tryShow(i){ if(i>=list.length) return empty(); show(list[i],()=>tryShow(i+1)); }
+  function empty(){
+    const q=encodeURIComponent(d.q||'');
+    fig.innerHTML='<div class="empty">'+CAMERA_SVG+'<small>'+(d.n?'photo'+d.n+'.jpg табылмады':'Архив суреті')+'</small><div class="acts">'+
       '<a href="https://commons.wikimedia.org/w/index.php?search='+q+'&ns6=1" target="_blank" rel="noopener">Commons-та іздеу</a>'+
-      '<a href="https://www.google.com/search?tbm=isch&q='+q+'" target="_blank" rel="noopener">Google</a>'+
       '<label>Сурет таңдау<input type="file" accept="image/*"></label></div></div><figcaption></figcaption>';
     fig.querySelector('figcaption').textContent=d.cap;
     fig.querySelector('input').onchange=e=>{ if(e.target.files[0]) show(URL.createObjectURL(e.target.files[0])); };
-  };
-  d.src ? show(d.src) : empty();
+  }
+  tryShow(0);
 }
 document.querySelectorAll('.photo[data-key]').forEach(buildPhoto);
+document.querySelectorAll('.gallery').forEach(g=>{ if(!g.querySelector('.photo')) g.remove(); });
 
 /* ============ HUD / XP ============ */
 let XP=0; const xpEl=document.getElementById('xp');
