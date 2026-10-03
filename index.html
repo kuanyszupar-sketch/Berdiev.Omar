@@ -69,14 +69,15 @@ select.sp{background:var(--ink);color:var(--sun);border:2px solid var(--sun);fon
 .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,#FFE47E 0 55%,rgba(255,228,126,0) 70%);z-index:0}
 .hero .wrap{position:relative;z-index:1}
 .hero .grid{display:grid;gap:36px;align-items:center}
-@media(min-width:900px){.hero .grid{grid-template-columns:1.3fr 1fr}}
+@media(min-width:900px){.hero .grid{grid-template-columns:1.05fr 1fr}}
 .year{font:700 clamp(110px,18vw,230px)/.8 var(--head);color:var(--ink);letter-spacing:-.04em;margin:0 0 6px;text-shadow:6px 6px 0 var(--red)}
 .hero h1{font-size:clamp(46px,8.4vw,112px);line-height:.98;margin-bottom:.35em}
 .band{display:inline-block;background:var(--red);color:#FFF4C6;font:700 20px var(--head);padding:5px 16px;transform:rotate(-1.5deg);margin-bottom:22px}
 .rq{margin-top:26px;border-left:8px solid var(--ink);padding:6px 0 6px 18px;font-style:italic;max-width:60ch}
-.collage{position:relative;min-height:380px}
-.collage .photo:nth-child(1){width:82%}
-.collage .photo:nth-child(2){position:absolute;right:0;bottom:-30px;width:46%}
+.collage{position:relative;min-height:480px;padding-bottom:40px}
+.collage .photo:nth-child(1){width:94%}
+.collage .photo img{max-height:600px}
+.collage .photo:nth-child(2){position:absolute;right:0;bottom:-10px;width:56%}
 
 /* photos */
 .photo{--rot:-2deg;margin:0;background:#FBF3D4;padding:10px 10px 12px;border:1px solid rgba(29,33,69,.5);box-shadow:6px 6px 0 var(--ink);transform:rotate(var(--rot));position:relative}
@@ -206,6 +207,28 @@ textarea{width:100%;min-height:150px;border:3px solid var(--ink);background:#fff
 .vlinks{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;font:14px var(--ui)}
 .vlinks input{flex:1;min-width:220px;border:2px solid var(--ink);padding:7px 10px;font:14px var(--ui)}
 .vlinks a{font-weight:700}
+
+/* figures */
+.figs{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:14px}
+.fig{background:var(--paper);color:var(--ink);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);text-align:left;cursor:pointer;padding:16px;font:inherit}
+.fig .mono{width:60px;height:60px;border-radius:50%;background:var(--ink);color:var(--sun);display:grid;place-items:center;font:700 24px var(--head);margin-bottom:10px}
+.fig h4{font-size:24px;margin:0 0 4px}
+.fig .role{font:14px/1.35 var(--ui)}
+.fig .more{margin-top:10px;font:15px/1.5 var(--ui);display:none;border-top:2px dashed var(--ink);padding-top:10px}
+.fig[aria-expanded=true] .more{display:block}
+.fig[aria-expanded=true]{background:#FFE9A0}
+/* presentation mode */
+body.present{font-size:22px}
+.present footer,.present .stage .hint,.present .vlinks input,.present #vgo,.present .fact{display:none}
+.present .lead{font-size:26px}
+.present h2{font-size:clamp(40px,6vw,80px)}
+.present .card p,.present .panel p,.present .panel li{font-size:24px;max-width:none}
+.present .opt{font-size:22px}.present .q-text{font-size:clamp(30px,3.6vw,44px)}
+.present .info p,.present #yi-text{font-size:26px}.present #yi-title{font-size:38px}
+.present .mc{font-size:20px}.present .sitem p{font-size:21px}.present .sbtn button{font-size:18px}
+.present details.task summary{font-size:24px}.present details.task .ans{font-size:21px}
+.present .tile span{font-size:18px}.present .fig .role{font-size:17px}.present .fig .more{font-size:19px}
+.present .goal{font-size:18px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,40px);background:var(--ink);color:var(--sun);padding:12px 22px;font:700 18px var(--head);border:3px solid var(--sun);opacity:0;transition:.35s;z-index:99;pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 footer{background:var(--ink);color:#E9D9A8;padding:46px 20px;font:15px/1.6 var(--ui)}
@@ -226,6 +249,7 @@ footer li{margin-bottom:6px}
     <a href="#lvl4" data-id="lvl4"><b>4</b><span>Баға беру</span></a>
     <a href="#lvl5" data-id="lvl5"><b>5</b><span>Финал</span></a>
   </nav>
+  <button class="mini" id="presentBtn" aria-pressed="false" title="Пернетақта: P">Таныстыру (P)</button>
   <div class="xp" id="xp" title="Ұпай">★ 0</div>
 </header>
 
@@ -240,7 +264,6 @@ footer li{margin-bottom:6px}
         <span class="goal">9.1.1.1 демографиялық өзгерістердің себеп-салдары</span>
         <span class="goal">9.4.1.1 ауыл шаруашылығындағы өзгерістерге баға беру</span>
         <span class="goal">9.3.1.1 «Жылымық» (үй жұмысы)</span>
-        <span class="goal">⏱ 40 минут: 5 + 7 + 10 + 8 + 7 + 3</span>
       </div>
       <p class="rq"><b>Зерттеу сұрағы:</b> тың және тыңайған жерлерді игеру саясаты Қазақстанға қалай әсер етті?</p>
       <a class="btn" href="#lvl0">Ойынды бастау</a>
@@ -256,7 +279,7 @@ footer li{margin-bottom:6px}
 <section class="lvl l0" id="lvl0" data-lvl>
   <div class="wrap">
     <header class="lvl-head">
-      <span class="stamp">Деңгей 0 · Үй жұмысы</span><span class="time">⏱ 5 мин</span>
+      <span class="stamp">Деңгей 0 · Үй жұмысы</span>
       <h2>«Жылымық» кезеңіндегі Қазақстанның қоғамдық-саяси дамуы</h2>
       <p class="lead"><b>Зерттеу сұрағы:</b> «Жылымық кезеңі» қоғамға қандай өзгеріс әкелді?</p>
       <span class="goal">9.3.1.1 қоғамдық-саяси өмірдің ерекшеліктерін түсіндіру және өзіндік интерпретация жасау</span>
@@ -269,7 +292,7 @@ footer li{margin-bottom:6px}
 <section class="lvl l1" id="lvl1" data-lvl>
   <div class="wrap">
     <header class="lvl-head">
-      <span class="stamp">Деңгей 1</span><span class="time">⏱ 7 мин</span>
+      <span class="stamp">Деңгей 1</span>
       <h2>Тың игерудің мақсаты мен негізгі бағыттары</h2>
       <p class="lead">1954 жылы не шешілді және неге дәл Қазақстан таңдалды? Төрт бағытты бір-бірлеп аш.</p>
     </header>
@@ -289,7 +312,10 @@ footer li{margin-bottom:6px}
         <figure class="photo" data-key="plenum" style="--rot:2deg"></figure>
       </div>
     </div>
-        <div class="card" id="videoBox" style="margin-top:34px">
+        <h3 style="margin-top:40px">Тарихи тұлғалар</h3>
+    <p style="margin-bottom:0">Карточканы бас: тұлғаның тың игерудегі рөлі ашылады. Сұрақ: оның шешімі Қазақстанға қалай әсер етті?</p>
+    <div class="figs" id="figs"></div>
+    <div class="card" id="videoBox" style="margin-top:34px">
       <h3>Бейне: тың игеру туралы</h3>
       <p style="margin-bottom:0">Қажетті бейнені таңдап, ортасындағы ойнату белгісін бас.</p>
       <div class="vtabs" id="vtabs"></div>
@@ -313,7 +339,7 @@ footer li{margin-bottom:6px}
 <section class="lvl l2" id="lvl2" data-lvl>
   <div class="wrap">
     <header class="lvl-head">
-      <span class="stamp">Деңгей 2</span><span class="time">⏱ 10 мин</span>
+      <span class="stamp">Деңгей 2</span>
       <h2>Тың қалай игерілді?</h2>
       <p class="lead">Жылды жылжыт: Солтүстік Қазақстанның даласы қалай алтын астық алқабына, кейін шаңды дауылға ұшыраған жерге айналғанын көр. Картаны айналдыр, облысқа бас.</p>
     </header>
@@ -379,7 +405,7 @@ footer li{margin-bottom:6px}
 <section class="lvl l3" id="lvl3" data-lvl>
   <div class="wrap">
     <header class="lvl-head">
-      <span class="stamp">Деңгей 3</span><span class="time">⏱ 8 мин</span>
+      <span class="stamp">Деңгей 3</span>
       <h2>Халық құрамы қалай өзгерді?</h2>
       <p class="lead">Мақсат: 9.1.1.1. Демографиялық өзгерістердің себеп-салдарлық байланысын тауып, дәйекті қорытынды жаса.</p>
     </header>
@@ -423,7 +449,7 @@ footer li{margin-bottom:6px}
 <section class="lvl l4" id="lvl4" data-lvl>
   <div class="wrap">
     <header class="lvl-head">
-      <span class="stamp">Деңгей 4</span><span class="time">⏱ 7 мин</span>
+      <span class="stamp">Деңгей 4</span>
       <h2>Тың игеруге баға бер</h2>
       <p class="lead">Мақсат: 9.4.1.1. Кеңес үкіметі кезіндегі ауыл шаруашылығындағы өзгерістерге баға беру. Әр тұжырымды «пайда», «зиян» немесе «екі жақты» деп жіктеп көр.</p>
     </header>
@@ -453,7 +479,7 @@ footer li{margin-bottom:6px}
 <section class="lvl l5" id="lvl5" data-lvl>
   <div class="wrap">
     <header class="lvl-head">
-      <span class="stamp">Деңгей 5 · Финал</span><span class="time">⏱ 3 мин</span>
+      <span class="stamp">Деңгей 5 · Финал</span>
       <h2>Тың игеру квизі</h2>
       <p class="lead">Он сұрақ. Бүгін үйренгенің бойынша жауап бер.</p>
     </header>
@@ -796,6 +822,41 @@ mountQuiz(document.getElementById('quiz5'),[
  {q:'Тың өлкесінде көптеген шаруашылықтар қандай дақылды басым өсірді?',o:['Бидай','Мақта','Күріш','Көкөніс'],a:0,e:'Бидай моноқұлтурасы өнімнің құбылмалылығына себеп болды.'}
 ],'lvl5',['Тарихшы-зерттеуші','Архивші','Тың игеруші','Қайта қарап шық']);
 document.getElementById('refl').querySelectorAll('button').forEach(b=>b.onclick=()=>{document.getElementById('refl-msg').textContent=b.dataset.m;});
+
+/* ============ ТАРИХИ ТҰЛҒАЛАР ============ */
+(function(){
+  const F=[
+   ['НХ','Н. С. Хрущёв','КОКП ОК Бірінші хатшысы (1953–1964)','Тың игеру бастамашысы. 1954 жылы пленумда шешім қабылдатты, 1956 жылы ХХ съезде Сталиннің жеке басына табынуды сынады. 1964 жылғы қазанда қызметінен босатылды.'],
+   ['ЛБ','Л. И. Брежнев','Қазақстан КП ОК хатшысы, кейін КОКП ОК Бас хатшысы','1954 жылы Қазақстан Компартиясының екінші хатшысы, 1955–56 жж. бірінші хатшысы болып, тың игеруді басқарды. 1964 жылы Хрущёвтен кейін КОКП-ның жетекшісі болды.'],
+   ['ЖШ','Ж. Шаяхметов','Қазақстан КП ОК Бірінші хатшысы (1946–1954)','Тың жерлерді асығыс игеру идеясын қолдамағаны айтылады. 1954 жылы республика басшылығынан кетті.'],
+   ['ПП','П. К. Пономаренко','Қазақстан КП ОК Бірінші хатшысы (1954–1955)','1954 жылғы ақпанда Қазақстан Компартиясын басқарып, алғашқы эшелондарды қабылдады. 1955 жылы Польшаға елші болып кетті.']
+  ];
+  const box=document.getElementById('figs');
+  F.forEach(f=>{const b=document.createElement('button');b.className='fig';b.setAttribute('aria-expanded','false');
+    b.innerHTML='<div class="mono"></div><h4></h4><div class="role"></div><div class="more"></div>';
+    b.querySelector('.mono').textContent=f[0];b.querySelector('h4').textContent=f[1];b.querySelector('.role').textContent=f[2];b.querySelector('.more').textContent=f[3];
+    b.onclick=()=>b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')!=='true');box.appendChild(b);});
+})();
+
+/* ============ ТАНЫСТЫРУ РЕЖИМІ + ПЕРНЕЛЕР ============ */
+(function(){
+  const btn=document.getElementById('presentBtn');
+  function set(on){
+    document.body.classList.toggle('present',on); btn.setAttribute('aria-pressed',on); btn.textContent=on?'Шығу (P)':'Таныстыру (P)';
+    if(on&&document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().catch(()=>{});}
+    else if(!on&&document.fullscreenElement){document.exitFullscreen();}
+  }
+  btn.onclick=()=>set(!document.body.classList.contains('present'));
+  document.addEventListener('fullscreenchange',()=>{ if(!document.fullscreenElement&&document.body.classList.contains('present')) set(false); });
+  document.addEventListener('keydown',e=>{
+    if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;
+    const k=e.key.toLowerCase();
+    if(k==='p'||k==='з'){btn.click();}
+    else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+      const a=document.querySelector('.hud nav a.active'); if(a&&a.dataset.id==='lvl2'){document.getElementById(e.key==='ArrowRight'?'next':'prev').click();e.preventDefault();}
+    }
+  });
+})();
 </script>
 </body>
 </html>
