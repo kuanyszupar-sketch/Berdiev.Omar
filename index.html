@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ашық сабақ</title>
+<title>Тың игеру Қазақстанды қалай өзгертті? · Ашық сабақ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
@@ -178,6 +178,29 @@ details.task .ans{padding:0 18px 14px 58px;font-size:16px}
 @keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .mc .tag{position:absolute;right:8px;top:6px;background:var(--ok);color:#fff;font:700 12px var(--ui);padding:0 7px;border-radius:9px}
 
+/* notebook task */
+.nb{position:relative;margin-top:40px;padding:26px 26px 26px 76px;border:3px solid var(--ink);box-shadow:7px 7px 0 var(--ink);color:var(--ink);
+  background:linear-gradient(90deg,transparent 56px,#C42B1C 56px 58px,transparent 58px),repeating-linear-gradient(#FFFDF0 0 31px,#BCD0F0 31px 32px)}
+.nb .pen{position:absolute;left:-14px;top:-18px;background:var(--red);color:#FFF4C6;font:700 20px var(--head);padding:4px 16px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg)}
+.nb h3{margin:6px 0 0;line-height:32px}
+.nb p,.nb li{font:400 18px/32px var(--body);margin:0;max-width:none}
+.nb ol{margin:0;padding-left:22px}
+.nbmap{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;margin:16px 0 14px;font:700 15px/1.3 var(--ui);text-align:center}
+.nbmap div{border:2px dashed var(--ink);background:rgba(255,255,255,.7);padding:10px 8px;min-height:92px;display:grid;place-content:center;gap:2px}
+.nbmap div small{font:400 13px var(--ui)}
+.nbmap i{font:700 28px var(--head);font-style:normal;color:var(--red)}
+.nbmap .mid{background:var(--sun);border-style:solid}
+.nbtime{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.nbtime .clock{font:700 38px/1 var(--head);background:var(--ink);color:var(--sun);padding:4px 14px;min-width:96px;text-align:center}
+.nbchk{display:grid;margin:6px 0}
+.nbchk label{display:flex;gap:10px;align-items:center;cursor:pointer;font:400 17px/32px var(--ui)}
+.nbchk input{width:20px;height:20px;accent-color:var(--red)}
+.nb details{margin-top:8px;font:400 16px/1.5 var(--ui)}
+.nb summary{cursor:pointer;font:700 17px var(--ui)}
+.nb details div{background:#FFE9A0;border-left:6px solid var(--ink);padding:10px 14px;margin-top:8px}
+@media(max-width:700px){.nb{padding:24px 16px 22px 62px}.nbmap{grid-template-columns:1fr}.nbmap i{transform:rotate(90deg)}}
+.present .nb p,.present .nb li{font-size:22px}.present .nbchk label{font-size:21px}
+
 /* sort */
 .sort{display:grid;gap:12px}
 .sitem{background:#fff;border:2px solid var(--ink);padding:12px 14px;display:grid;gap:10px}
@@ -254,20 +277,61 @@ footer li{margin-bottom:6px}
 </header>
 
 <!-- ============ HERO ============ -->
+<style>
+.hero{padding:72px 20px 120px;color:#FFF4C6;
+  background:
+    radial-gradient(900px 520px at 85% 6%,rgba(255,201,40,.32),transparent 60%),
+    radial-gradient(700px 480px at 0% 100%,rgba(196,43,28,.30),transparent 60%),
+    repeating-linear-gradient(115deg,transparent 0 38px,rgba(255,201,40,.05) 38px 40px),
+    var(--ink)}
+.hero::after{display:none}
+.hero .tag{display:inline-block;font:700 18px var(--head);color:var(--ink);background:var(--sun);padding:5px 18px;border-radius:99px;margin-bottom:20px}
+.hero h1{font-size:clamp(46px,7.2vw,96px);line-height:.98;margin:0 0 32px;color:var(--sun-2);
+  background:linear-gradient(180deg,#FFF4C6 5%,#FFC928 95%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-wrap:balance}
+.hero .box{background:rgba(255,244,198,.07);border:1px solid rgba(255,201,40,.38);border-radius:18px;padding:20px 24px;margin-bottom:18px;max-width:640px}
+.hero .box h2{font:700 22px/1.1 var(--head);color:var(--sun);margin:0 0 12px;letter-spacing:.01em}
+.hero .q{border-left:6px solid var(--sun)}
+.hero .q p{font:italic 400 clamp(20px,2.3vw,26px)/1.4 var(--body);color:#FFF4C6;margin:0;max-width:none}
+.hero .aims{list-style:none;margin:0;padding:0}
+.hero .aims li{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;padding:12px 0}
+.hero .aims li+li{border-top:1px solid rgba(255,201,40,.28)}
+.hero .aims b{font:700 30px/1 var(--head);color:var(--sun)}
+.hero .aims span{font:400 17px/1.5 var(--ui);color:#F6EBC4}
+.hero .btn{margin-top:8px;background:var(--sun);color:var(--ink);border-radius:99px;padding:14px 30px;font-size:20px;box-shadow:0 5px 0 var(--red)}
+.hero .btn:hover{box-shadow:0 7px 0 var(--red)}
+.hero .photo{box-shadow:8px 8px 0 var(--sun)}
+.hero .photo::before{background:rgba(255,201,40,.85)}
+@media(max-width:520px){.hero .aims li{grid-template-columns:1fr;gap:4px}}
+</style>
 <section class="hero" id="start">
   <div class="wrap grid">
     <div>
-      <p class="year" aria-hidden="true"></p>
-      <h1>/Сабақтың тақырыбы: Тың игеру жылдарындағы Қазақстан>
-      <span class="band">Оқу бағдарламасына сәйкес оқыту мақсаттары: 	                                                                                                         9.1.1.1 - демографиялық өзгерістердің себеп-салдарлық байланысын талдау арқылы дәйекті қорытынды жасау;/span>
-      <div>
-        <span class="goal">9.1.1.1 демографиялық өзгерістердің себеп-салдары</span>
-        <span class="goal">9.4.1.1 ауыл шаруашылығындағы өзгерістерге баға беру</span>
-        <span class="goal">9.3.1.1 «Жылымық» (үй жұмысы)</span>
+      <span class="tag">Сабақтың тақырыбы</span>
+      <h1>Тың игеру жылдарындағы Қазақстан</h1>
+
+      <div class="box q">
+        <h2>Зерттеу сұрағы</h2>
+        <p>Тың және тыңайған жерлерді игеру саясаты Қазақстанға қалай әсер етті?</p>
       </div>
-      <p class="rq"><b>Зерттеу сұрағы:</b>Тың және тыңайған жерлерді игеру саясаты Қазақстанға қалай әсер етті?</p>
+
+      <div class="box">
+        <h2>Оқу бағдарламасына сәйкес оқыту мақсаттары</h2>
+        <ul class="aims">
+          <li>
+            <b>9.1.1.1</b>
+            <span>Демографиялық өзгерістердің себеп-салдарлық байланысын талдау арқылы дәйекті қорытынды жасау</span>
+          </li>
+          <li>
+            <b>9.4.1.1</b>
+            <span>Кеңес үкіметі кезіндегі ауыл шаруашылығында орын алған өзгерістерге баға беру</span>
+          </li>
+        </ul>
+      </div>
+
       <a class="btn" href="#lvl0">Ойынды бастау</a>
-    </div>   <div class="collage">
+    </div>
+
+    <div class="collage">
       <figure class="photo" data-key="hero" style="--rot:-2.5deg"></figure>
       <figure class="photo" data-key="hero2" style="--rot:3deg"></figure>
     </div>
@@ -440,6 +504,40 @@ footer li{margin-bottom:6px}
       <div class="mcol" id="mc-e"><h4>Салдар</h4></div>
     </div>
     <div class="score-line" id="match-score">Жұп: 0 / 5</div>
+    <div class="nb" id="nbTask">
+      <span class="pen">Дәптерге орында</span>
+      <h3>Тапсырма 7б. Себеп-салдар сызбасы</h3>
+      <p>Бұл тапсырманы экранда емес, <b>дәптеріңе</b> орында. Сызба сызып, соңында қорытынды жаз.</p>
+      <ol>
+        <li>Дәптерге үш бағанды сыз: <b>себептер → өзгеріс → салдарлар</b>.</li>
+        <li>Ортаңғы бағанға деректі жаз: <b>қазақтар үлесі 38 % → 30,7 %</b> (1939–1959 жж.).</li>
+        <li>Сол жаққа үш себеп, оң жаққа үш салдар жаз. Әрқайсысын көрсеткімен қос.</li>
+        <li>Төменіне бір сөйлемдік қорытынды жаз: <i>«Демек, ...»</i></li>
+      </ol>
+      <div class="nbmap" aria-hidden="true">
+        <div>Себеп 1<br>Себеп 2<br>Себеп 3</div><i>→</i>
+        <div class="mid">Қазақтар үлесі<small>38 % → 30,7 %</small></div><i>→</i>
+        <div>Салдар 1<br>Салдар 2<br>Салдар 3</div>
+      </div>
+      <div class="nbtime">
+        <div class="clock" id="nbClock">07:00</div>
+        <button class="btn" id="nbStart" style="padding:8px 18px">Бастау</button>
+        <button class="btn alt" id="nbReset" style="padding:8px 18px">Қайта</button>
+      </div>
+      <p><b>Өзіңді тексер:</b></p>
+      <div class="nbchk" id="nbChk">
+        <label><input type="checkbox"> Үш бағанды сыздым</label>
+        <label><input type="checkbox"> Үш себеп жаздым</label>
+        <label><input type="checkbox"> Үш салдар жаздым</label>
+        <label><input type="checkbox"> Көрсеткілермен байланыстырдым</label>
+        <label><input type="checkbox"> «Демек, ...» қорытындысын жаздым</label>
+      </div>
+      <details><summary>Үлгіні көру (өзің орындап болған соң)</summary>
+        <div><b>Себептер:</b> тың игеру науқаны жұмыс күшін талап етті; депортацияланған халықтар қоныстандырылды; солтүстікте жаңа совхоздар салынды.<br>
+        <b>Салдарлар:</b> славян қоныстанушыларының ағыны; республика көпұлтты болды; қазақ тілінің қолданылу аясы тарылды.<br>
+        <b>Қорытынды:</b> демек, тың игеру Қазақстанның халық құрамын түбегейлі өзгертті.</div>
+      </details>
+    </div>
     <div class="gallery"><figure class="photo" data-key="city"></figure></div>
   </div>
 </section>
@@ -777,6 +875,19 @@ const YEAR_EVENTS={
     if(selC.dataset.i===b.dataset.i){okN++;[selC,b].forEach(x=>{x.classList.remove('sel');x.classList.add('done');x.insertAdjacentHTML('beforeend','<span class="tag">'+okN+'</span>');});selC=null;addXP(10);
       document.getElementById('match-score').textContent='Жұп: '+okN+' / 5'; if(okN===5)complete('lvl3','Себеп-салдар құрастырылды! +20');}
     else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);toast('Бұл жұп емес. Қайта ойлан');}};me.appendChild(b);});
+})();
+
+/* ============ NOTEBOOK TASK ============ */
+(function(){
+  const clock=document.getElementById('nbClock'),st=document.getElementById('nbStart'),rs=document.getElementById('nbReset');
+  if(!clock)return; const T=420; let left=T,t=null;
+  const draw=()=>{clock.textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0');};
+  function stop(){clearInterval(t);t=null;st.textContent='Бастау';}
+  st.onclick=()=>{ if(t){stop();return;} if(left<=0)left=T; st.textContent='Тоқтату'; draw();
+    t=setInterval(()=>{left--;draw();if(left<=0){stop();toast('Уақыт бітті! Дәптеріңді көрсет');}},1000); };
+  rs.onclick=()=>{stop();left=T;draw();};
+  const boxes=[...document.querySelectorAll('#nbChk input')]; let paid=false;
+  boxes.forEach(b=>b.onchange=()=>{ if(!paid&&boxes.every(x=>x.checked)){paid=true;addXP(15);toast('Дәптер тапсырмасы орындалды! +15');} });
 })();
 
 /* ============ LEVEL 4: SORT ============ */
